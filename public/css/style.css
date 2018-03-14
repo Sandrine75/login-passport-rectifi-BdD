@@ -1,4 +1,4 @@
-/* Space out content a bit */
+/* Pour espacer le contenu */
 body {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -12,12 +12,12 @@ body {
   padding-left: 15px;
 }
 
-/* Custom page header */
+/* Customisation page header */
 .header {
   padding-bottom: 20px;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #5AF044; /* trait de couleur sous le header */
 }
-/* Make the masthead heading the same height as the navigation */
+/* Faire en sorte que les titres soient de la même hauteur que la navigation */
 .header h3 {
   margin-top: 0;
   margin-bottom: 0;

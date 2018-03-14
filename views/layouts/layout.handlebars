@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    	<title>LoginApp</title>
+        <link rel="shortcut icon" href="images/SandrineGautier.png">
+    	<title>Sandrine Gautier - CEO Dévelopeur Web</title>
     	<link rel="stylesheet" href="/css/bootstrap.css" />
 	    <link rel="stylesheet" href="/css/style.css" />
 </head>
@@ -11,19 +12,24 @@
         <nav>
           <ul class="nav nav-pills float-right">
         <!--    <li class="nav-item">-->
-                
-                {{#if user}}
-                  <li role="presentation"><a href="/">Dashboard</a></li>
-                  <li role="presentation"><a href="/users/logout">Logout</a></li>
+<!--    les deux onglets qui apparaissent sont login et register. Un fois que l'on est logé, ce sont les onglets daschboard et logout qui a^^araissent. Pour ajouter des pages dans les onglets, il faut les écrire avant la ligne "if user"  -->  
+              
+<!-- Par contre on ne veut pas que le dashboard soit ouvert lorque dans la barre de navigation on indique seulement le /. Il faut donc le fixer le / sauf si on le renomme autrement... On le fait dans Index.js ligne 9 à 14 -->        
+            <li role="presentation"><a href="/">Acceuil</a></li>
+              
+              {{#if user}}
+                  <li role="presentation"><a href="/users/daschboard">Daschboard</a></li>
+                  <li role="presentation"><a href="/users/logout">Déconnexion</a></li>
                 {{else}}
-                  <li role="presentation"><a href="/users/login">Login</a></li>
-                  <li role="presentation"><a href="/users/register">Register</a></li>
+                  <li role="presentation"><a href="/users/login">Connection</a></li>
+                  <li role="presentation"><a href="/users/register">Inscription</a></li>
                 {{/if}}
 
             <!--</li>-->
            </ul>
          </nav>
-        <h3 class="text-muted">Login App</h3>
+        <h3 class="text-muted">Sandrine Gautier</h3>
+          <h6 class ="text-muted">LoginApp vierge toutes utilisations</h6>
       </header>
 
       <main role="main">
@@ -49,7 +55,7 @@
       </main>
 
       <footer class="footer">
-        <p>&copy; Sandrine Login1 2018</p>
+        <p>&copy; Sandrine Gautier LoginAppVierge  2018</p>
       </footer>
 
     </div> <!-- /container -->

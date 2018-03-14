@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('../models/user');
 
@@ -36,23 +38,72 @@ router.post('/register', function(req, res){
             res.render('register');
             }
     else {
-            var nexUser = new User({
+            var newUser = new User({
                 name: name,
                 email: email,
-                password:password,
+                username: username,
                 password: password
             });
 
            // création du user dans le model       
-            User. createUser(newUser, function(err, user){
+            User.createUser(newUser, function(err, user){
                 if(err) throw err;
                 console.log(user); 
             }); 
         // message flash success message
-        router.flash('success_msg', 'Vous êtes bien enregistré et vous pouvez vous iddentifier par votre Login'); // Nota : pour afficher ce message, il faut ajouter un template. Aller dans Layout.hadlebars lignes 30 à 41
+        // router.flash changé par req.flash
+        req.flash('success_msg', 'Vous êtes bien enregistré et vous pouvez vous iddentifier par votre Login'); // Nota : pour afficher ce message, il faut ajouter un template. Aller dans Layout.hadlebars lignes 30 à 41
         res.redirect('/users/login');
     };
   
 });
+
+//////////////part 3
+
+
+        passport.use(new LocalStrategy(
+          function(username, password, done) {
+              User.getUserByUsername(username, function(err, user){
+               if(err) throw err;
+               if(!user){
+                      return done(null, false, {message: 'Utilisateur inconnu'});
+                  }
+
+            User.comparePassword(password, user.password, function(err, isMatch){
+                      if(err) throw err;
+                      if(isMatch){
+                        return done(null, user);
+                      }else {
+                      return done(null, false, {message: 'Mot de passe invalide'});
+                  }
+              }); 
+           });
+        }));
+
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.getUserById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+router.post('/login', // pour le login, on utilise la base en local
+    passport.authenticate('local', {succesRedirect:'/', failureRedirect: '/users/login', failureFlash: true}),
+    function(req, res) {
+        res.redirect('/');
+    });
+
+router.get('/logout', function(req, res){
+	req.logout();
+
+	req.flash('success_msg', 'Vous êtes déconnecté');
+
+	res.redirect('/users/login');
+});
+//////////////
 
 module.exports = router;
